@@ -1,19 +1,50 @@
-import { FirstPage } from './FirstPage';
-import { Container } from '@material-ui/core';
-import { stepState } from '../Recoil/State';
-import { useRecoilValue } from 'recoil';
+import { FirstPage, ProductInfo } from './';
+import { Container, Slide, Box } from '@material-ui/core';
+import { stepState, beforeStepState } from '../Recoil/State';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useEffect } from 'react';
+import { setActiveStep } from '../Recoil/Selector';
 
 export const LandingPage = () => {
-    const step = useRecoilValue(stepState);
-
     // USE RECOIL HERE
+    const step = useRecoilValue(stepState);
+    const transitionBeforeStep = useRecoilValue(beforeStepState);
+    const updateStep = useSetRecoilState(setActiveStep); 
+
+    useEffect(()=>{
+        setTimeout(()=> updateStep(transitionBeforeStep), 500);
+    },[transitionBeforeStep, updateStep]);
+
+
     const formStep = () => {
         switch(step) {
             case 1: {
-                return(<div>Product Info</div>)
+                return(
+                <Slide 
+                    direction='right' 
+                    in={transitionBeforeStep === 1}
+                    mountOnEnter 
+                    unmountOnExit
+                >
+                    <Box>
+                        <ProductInfo />
+                    </Box>
+                </Slide>
+                )
             }
             case 2: {
-                return (<FirstPage />)
+                return (
+                <Slide 
+                    direction='left' 
+                    in={transitionBeforeStep === 2} 
+                    mountOnEnter 
+                    unmountOnExit
+                >
+                    <Box>
+                        <FirstPage />
+                    </Box>
+                </Slide>
+                )
             }
             case 3: {
                 return (<div>CheckOut Page</div>)

@@ -5,6 +5,11 @@ export const stepState = atom({
     default:1,
 });
 
+export const beforeStepState = atom({
+    key: 'beforeStepState',
+    default:1,
+})
+
 export const personalInfoState = atom({
     key:'personalInfoState',
     default: {

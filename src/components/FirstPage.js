@@ -3,11 +3,12 @@ import { TextField, Typography, Button } from '@material-ui/core';
 import { useStyles } from './styles';
 import { personalInfoState } from '../Recoil/State';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { addStep } from '../Recoil/Selector';
+import { addStep, backStep } from '../Recoil/Selector';
 
 export const FirstPage = () => {
     const personalInfo = useRecoilValue(personalInfoState);
     const nextStep = useSetRecoilState(addStep);
+    const prevStep = useSetRecoilState(backStep);
 
     const [ name, setName ] = useState(personalInfo.name);
     const [ email, setEmail ] = useState(personalInfo.phone);
@@ -53,6 +54,15 @@ export const FirstPage = () => {
                 onClick={handleInfoSubmit}    
             >
                 Next
+            </Button>
+
+            <Button 
+                className={classes.btn} 
+                fullWidth
+                color='secondary' variant='contained'
+                onClick={() => prevStep()}    
+            >
+                Back
             </Button>
         </div>
     )
